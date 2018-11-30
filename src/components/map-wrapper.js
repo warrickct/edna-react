@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import L from "leaflet";
-// import "leaflet/dist/leaflet.css";
-import "leaflet-css";
-
+import "../App.css";
 export default class extends Component {
   shouldComponentUpdate() {
     // stops react from only rendering the div element that leaflet mounts.
@@ -31,9 +29,17 @@ export default class extends Component {
       layers: tileLayer,
       fullscreenControl: true
     }).setView([-41.235726, 172.5118422], 5.75);
+    var bounds = this.map.getBounds();
   }
 
   render() {
-    return <div className="map" id="map" ref="map" />;
+    return (
+      <div
+        className="map"
+        id="map"
+        ref="map"
+        style={{ height: "100vh", width: "100vw" }}
+      />
+    );
   }
 }
