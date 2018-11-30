@@ -1,9 +1,19 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import L from "leaflet";
-// import "/leaflet/dist/leaflet.css";
+// import "leaflet/dist/leaflet.css";
+import "leaflet-css";
 
-class Map extends Component {
+export default class extends Component {
+  shouldComponentUpdate() {
+    // stops react from only rendering the div element that leaflet mounts.
+    return false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // always called when props received but won't force a re-rendering
+    this.map.flyTo([nextProps.lat, nextProps.lng], 12);
+  }
+
   componentDidMount() {
     var tileLayer = L.tileLayer(
       "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
@@ -15,28 +25,15 @@ class Map extends Component {
         minZoom: 5.75
       }
     );
-    // var map = L.map("Map", {
-    var map = (this.map = L.map(ReactDOM.findDOMNode(this), {
+    this.map = L.map(this.refs.map, {
       zoomSnap: 0.25,
       zoomDelta: 0.25,
       layers: tileLayer,
       fullscreenControl: true
-    }).setView([-41.235726, 172.5118422], 5.75));
-    var bounds = map.getBounds();
-    bounds._northEast.lat += 10;
-    bounds._northEast.lng += 10;
-    bounds._southWest.lat -= 10;
-    bounds._southWest.lng -= 10;
+    }).setView([-41.235726, 172.5118422], 5.75);
   }
 
   render() {
-    return (
-      <div className="Map">
-        <div id="map" />
-        <p>{this.props.text}</p>
-      </div>
-    );
+    return <div className="map" id="map" ref="map" />;
   }
 }
-
-export default Map;

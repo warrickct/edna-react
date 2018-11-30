@@ -1,27 +1,23 @@
 import React, { Component } from "react";
-import Map from "./components/Map";
-import logo from "./logo.svg";
+import MapWrapper from "./components/map-wrapper";
 import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // when the button is clicked it changes the state here which then triggers
+    // component received props in the map-wrapper component.
+    this.state = { lat: -41.235726, lng: 172.5118422 };
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <Map text="warrick" />
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {/* <button onClick={() => this.setState({ lat: -31, lng: 130 })}>
+            click to pan
+          </button> */}
+        <MapWrapper lat={this.state.lat} lng={this.state.lng} />
       </div>
     );
   }
